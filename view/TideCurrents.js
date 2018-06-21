@@ -111,6 +111,8 @@ function loadTodaysPrediction() {
       }
 
 }
+
+var todayTimeArr = [], timenowhrminSec;
 function datetimeformating() {
       var today = new Date();
       console.log(today);
@@ -136,16 +138,27 @@ function datetimeformating() {
 
 function loadGraph() {
 
+  timenowhrminSec = new Date().toString().slice(16,24);
   var trace1 = {
     type: "scatter",
     mode: "lines",
-    name: tideLevelLabel,
+    name: 'Predictions',
     x: Xaxis,
     y: YaxisInFt,fill: "none",
     line: {shape: 'spline'}
-  }
+  };
 
-  var data = [trace1];
+  var trace2 = {
+    x: todayTimeArr,
+    y: YaxisInFt,
+    mode: 'lines',
+    name: 'Current LST/LDT',
+    text: [timenowhrminSec],
+    textposition: 'auto',
+    type: 'scatter'
+  };
+
+  var data = [trace1, trace2];
 
   var selectorOptions = {
     buttons: [{

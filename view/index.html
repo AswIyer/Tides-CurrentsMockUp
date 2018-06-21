@@ -18,55 +18,124 @@
     <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <style>
         #wrapper {
-        width: 1200px;
-        margin: 0 auto;
+        margin: 0 30px;
+
+        },
+
+       .navbar {
+          min-height: 20px;
         }
+
+        .navbar-brand {
+          padding: 0 0px;
+          height: 20px;
+          line-height: 20px;
+        }
+
+        .navbar-toggle {
+          /* (80px - button height 34px) / 2 = 23px */
+          margin-top: 23px;
+          padding: 5px 5px !important;
+        }
+
+        @media (min-width: 768px) {
+          .navbar-nav > li > a {
+            /* (80px - line-height of 27px) / 2 = 26.5px */
+        padding-top: 10.5px;
+        padding-bottom: 10.5px;
+        line-height: 10px;
+  }
+  
+
+  #noscript-warning {
+    font-family: sans-serif;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1050;
+    text-align: center;
+    font-weight: bold;
+    font-size: 120%;
+    font-color: white;
+    background-color: black;
+    padding: 5px 0;
+}
+.navbar a {
+    color: #FFFF;
+  }
+input{
+   text-align:center;
+}
+
+}
     </style>
 </head>
 
 <body>
-
+    <div id="noscript-warning">
+        <a class="" href="#">Navsim ARGUS - NOAA Tides and Currents Profile</a>
+    </div>
+   
     <div id="wrapper">
-            <div class="row">
-                 <div class="col-lg-4 col-md-4 col-sm-4">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa fa-bell fa-fw"></i>Today's High/Low
-                        </div>
-                        <div class="table-responsive">
-                            <table id = "todaysHighLow" class="table table-bordered table-hover table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Day</th>
-                                        <th>Time</th>
-                                        <th>Height</th>
-                                        <th>High/Low</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- /.table-responsive -->
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                <!--div class="panel panel-default"-->
+                    <div class="panel-heading">
+                        <i class="fa fa-bell fa-fw"></i>Today's High/Low
                     </div>
-                    <!-- /.panel-body -->
-                </div>
-                <!-- /.col-lg-4 -->
-                <div class="col-lg-8 col-md-8 col-sm-8"><br><br>
-                    
-                      <div class="well" style= "color:black">
-                            <center><strong>
-                                <output id="sourceInfo"></output>
-                                <output id="locationInfo"></output>
-                                <output id="timeframeInfo"></output>
-                            </center></strong>
-                      </div>
-                    
-                </div>
-                <!-- /.col-lg-12 -->
+                    <div class="table-responsive">
+                        <table id = "todaysHighLow" class="table table-bordered table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Day</th>
+                                    <th>Time</th>
+                                    <th>Height</th>
+                                    <th>High/Low</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                <!--/div-->
+                <!-- /.panel-body -->
             </div>
+            <!-- /.col-lg-4 -->
+
+            <div class="col-lg-8 col-md-8 col-sm-8">    
+                  <div class="well" style= "color:black">
+                        <center><strong>
+                            <output id="sourceInfo"></output>
+                            <output id="locationInfo"></output>
+                            <output id="timeframeInfo"></output>
+                        </center></strong>
+                  </div>
+            </div>
+                  <!--well-->
+                   
+                   <center><strong>
+                            <div class="col-lg-2 col-md-2 col-sm-2">
+                                <span style="color:#337ab7;font-weight:bold">MLLW (in ft)</span><input type="number"  class="form-control" id="MLLW" value="-1" min="-100" max=100>
+
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2">
+                                 <span style="color:#337ab7;font-weight:bold">MHHW (in ft)</span><input type="number" class="form-control" id="MHHW" value="5" min=-100 max=100>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2">
+                                <br>
+                                <input type="submit" value="Update" onclick="updateWaterLevel()">
+                            </div>
+                    </center></strong>       
+                    
+                            
+            </div>
+            <!-- /.col-lg-8 col-md-8 col-sm-8 -->
+        </div>
+        <!--row-->
 
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
@@ -75,21 +144,13 @@
                             <i class="fa fa-bar-chart-o fa-fw"></i> Tides/Water Levels
                             <div class="pull-right">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                                        Prediction Duration
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu pull-right" role="menu">
-                                        <li><a href="#">Yearly</a>
-                                        </li>
-                                        <li><a href="#">Monthly</a>
-                                        </li>
-                                        <li><a href="#">Weekly</a>
-                                        </li>
-                                        <li class="divider"></li>
-                                        <li><a href="#">Current Updates (Via Internet)</a>
-                                        </li>
-                                    </ul>
+                                    <select name="navyOp" onchange="reloadGraph(this);">
+                                      <option selected="selected" value="_48Hours">48 Hours Prediction</option>
+                                      <option value="_24Hours">24 Hours Prediction</option>
+                                      <option value="_48Hours">48 Hours Prediction</option>
+                                      <option value="_weekly">Weekly Prediction</option>
+                                      <option value="_annual">Annual Prediction</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
